@@ -1,0 +1,29 @@
+div {
+  margin: 20px;
+}
+
+table {
+  margin: 0 auto;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+td {
+  width: 100px;
+  height: 66px;
+  text-align: center;
+  font-size: 40px;
+  cursor: pointer;
+}
+
+tr td:not(:last-child) {
+  border-collapse: collapse;
+  border-right: 1px solid black;
+}
+
+tr:not(:last-child) td {
+  border-collapse: collapse;
+  border-bottom: 1px solid black;
+}
