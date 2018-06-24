@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
 import './Board.css'
+// import ScoreBoard from '../scoreboard/scoreboard';
 
 class Board extends Component {
   constructor(props) {
     super(props);
-    this.state = this.initState();
+    let state = this.initState();
+    state.scoreBoard = {
+      computer: 0,
+      player: 0
+    };
+
+    this.state = state;
   }
 
   initBoard() {
@@ -29,7 +36,7 @@ class Board extends Component {
   }
 
   onCellClicked(e, rowIdx, idx) {
-    if(this.state.winner) {
+    if(this.state.board[rowIdx][idx] || this.state.winner) {
       return;
     }
 
@@ -43,12 +50,28 @@ class Board extends Component {
       filled++;
     }
     
+    let scoreBoard = this.state.scoreBoard;
+    if(winner) {
+      scoreBoard = this.updateScoreBoard(winner);
+    }
 
     this.setState({
       board,
       winner,
-      filled
+      filled,
+      scoreBoard
     });
+  }
+
+  updateScoreBoard(winner) {
+    let scoreBoard = this.state.scoreBoard;
+    if(winner === 'o') {
+      scoreBoard.computer++;
+    }else {
+      scoreBoard.player++;
+    }
+
+    return scoreBoard;
   }
 
   computerNextMove(board) {
@@ -111,12 +134,12 @@ class Board extends Component {
     // check rows
     for(let i = 0; i < board.length; i++) {
       if(board[i][0] && board[i][0] === board[i][1] && board[i][0] === board[i][2]){
-        return this.state.board[i][0];
+        return board[i][0];
       }
     }
     
     // check columns
-    for(let i = 0; i < this.state.board.length; i++) {
+    for(let i = 0; i < board.length; i++) {
       if(board[0][i] && board[0][i] === board[1][i] && board[0][i] === board[2][i]){
         return board[0][i];
       }
@@ -154,6 +177,7 @@ class Board extends Component {
         </div>
         <div className="center">
           <button onClick={() => this.onRestartClicked()}>Restart</button>
+          <div>Computer: {this.state.scoreBoard.computer} - Player: {this.state.scoreBoard.player}</div>
           {this.state.winner && <div id="winner">{winnerMessage}</div>}
           {!this.state.winner && this.state.filled === 9 && <div id="winner">{tieMessage}</div>}
         </div>
