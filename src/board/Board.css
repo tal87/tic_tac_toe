@@ -4,9 +4,6 @@ div {
 
 table {
   margin: 0 auto;
-}
-
-table {
   border-collapse: collapse;
 }
 
@@ -26,4 +23,15 @@ tr td:not(:last-child) {
 tr:not(:last-child) td {
   border-collapse: collapse;
   border-bottom: 1px solid black;
+}
+
+#winner {
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 40px;
+  font-size: 20px;
+}
+
+.center {
+  text-align: center;
 }
