@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './Board.css'
-// import ScoreBoard from '../scoreboard/scoreboard';
 
 class Board extends Component {
   constructor(props) {
@@ -52,6 +51,7 @@ class Board extends Component {
     
     let scoreBoard = this.state.scoreBoard;
     if(winner) {
+      // we have a winner. let's update the scoreboard
       scoreBoard = this.updateScoreBoard(winner);
     }
 
@@ -79,6 +79,7 @@ class Board extends Component {
     let row = 0;
     let col = 0;
     let i = 0;
+    // get all the empty cells that were left on the board
     for(i = 0; i < board.length; i++) {
       for(var j = 0; j < board[0].length; j++) {
         if(!board[i][j]) {
@@ -88,7 +89,6 @@ class Board extends Component {
       }
     }
 
-    // see if there's a chance to win
     let copyBoard = [];
     for(i = 0; i < 3; i++){
       copyBoard.push([]);
@@ -97,6 +97,8 @@ class Board extends Component {
       }
     }
     
+    // see if there's a chance to win
+    // try to put 'o' in every empty cell and see if the computer can win
     for(i = 0; i < emptyCells.length; i++) {
       row = Math.floor(emptyCells[i] / 3);
       col = emptyCells[i] % 3;
@@ -169,7 +171,6 @@ class Board extends Component {
     });
 
     let winnerMessage = `${this.state.winner === 'x' ? 'You' : 'Computer'} won: ${this.state.winner === 'x' ? 'Congratulations!' : 'Try again next time'}`
-    let tieMessage = 'It\'s a tie! try again.'
     return (
       <div>
         <div id="tblDiv">
@@ -179,7 +180,7 @@ class Board extends Component {
           <button onClick={() => this.onRestartClicked()}>Restart</button>
           <div>Computer: {this.state.scoreBoard.computer} - Player: {this.state.scoreBoard.player}</div>
           {this.state.winner && <div id="winner">{winnerMessage}</div>}
-          {!this.state.winner && this.state.filled === 9 && <div id="winner">{tieMessage}</div>}
+          {!this.state.winner && this.state.filled === 9 && <div id="winner">It's a tie! try again.</div>}
         </div>
       </div>
     );
